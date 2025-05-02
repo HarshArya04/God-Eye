@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Campus Faculty Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <script>
+    const role = localStorage.getItem("userRole");
+    if (!role) {
+      window.location.href = "login.html";
+    }
+  </script>  
+  <!-- Search -->
+  <input type="text" id="searchInput" placeholder="Search teacher by name">
+  <button onclick="searchTeacher()">Search</button>
+  
+  <div id="searchResult" style="margin-top: 10px; font-weight: bold;"></div>
+  
+  <!-- Map -->
+  <h2>🧑‍🏫 Faculty Location Map (Campus Only)</h2>
+  <div id="map"></div>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+  
+  <!-- Legend -->
+  <div id="legend">
+    <span style="color:green;">●</span> In Class
+    <span style="color:blue; margin-left:10px;">●</span> Free
+    <span style="color:red; margin-left:10px;">●</span> Absent
+  </div>
+  
+</body>
+</html>
