@@ -121,3 +121,58 @@ const departmentLabels = [
       })
     }).addTo(map);
   });
+
+let teachers = [];
+
+fetch('http://localhost:3001/api/teachers')
+  .then(response => response.json())
+  .then(data => {
+    teachers = data;
+    updateMap(); // if you have map updates
+  })
+  .catch(error => console.error("Failed to load teacher data", error));
+  
+  function searchTeacher() {
+    const input = document.getElementById("searchInput").value.trim().toLowerCase();
+    const resultDiv = document.getElementById("searchResult");
+  
+    const teacher = teachers.find(t =>
+      t.name && t.name.toLowerCase().includes(input)
+    );
+  
+    if (teacher) {
+      resultDiv.innerHTML = `
+        <p><strong>Name:</strong> ${teacher.name}</p>
+        <p><strong>Status:</strong> ${teacher.status}</p>
+        <p><strong>Location:</strong> ${teacher.departmentDescription}</p>
+        <b>Last Updated:</b> ${teacher.last_updated}
+      `;
+  
+      if (window.map) {
+        // Center the map
+        map.setView(teacher.location, 18);
+  
+        // Remove previous search marker if exists
+        if (window.searchMarker) {
+          map.removeLayer(window.searchMarker);
+        }
+  
+        // Add new marker for the searched teacher
+        window.searchMarker = L.marker(teacher.location, {
+          title: teacher.name,
+          riseOnHover: true
+        }).addTo(map).bindPopup(
+          `<b>${teacher.name}</b><br>Status: ${teacher.status}`
+        ).openPopup();
+      }
+    } else {
+      resultDiv.innerHTML = "No matching teacher found.";
+      
+      // Remove previous search marker if it exists
+      if (window.searchMarker) {
+        map.removeLayer(window.searchMarker);
+        window.searchMarker = null;
+      }
+    }
+  }
+  

@@ -88,7 +88,6 @@ function updateTeacherStatus() {
     };
   });
 }
-
 function simulateMovement() {
   const now = new Date();
   const currentDay = now.toLocaleDateString('en-US', { weekday: 'long' });
@@ -143,10 +142,48 @@ setInterval(() => {
   updateTeacherStatus();
 }, 10000);
 
+function getDepartmentDescription(location) {
+  const [lat, lng] = location;
+  const deptNames = Object.keys(deptLocations);
+
+  for (const dept of deptNames) {
+    const [dLat, dLng] = deptLocations[dept];
+
+    const distance = Math.sqrt(Math.pow(dLat - lat, 2) + Math.pow(dLng - lng, 2));
+
+    if (distance < 0.0002) {
+      return `In the ${dept} department`;
+    } else if (distance < 0.001) {
+      return `Near the ${dept} department`;
+    }
+  }
+
+  return "Location not near any known department";
+}
+
 app.get('/api/teachers', (req, res) => {
   res.json(teacherLocations);
 });
+app.get('/api/teachers/search', (req, res) => {
+  const query = req.query.q?.toLowerCase();
+  if (!query) {
+    return res.status(400).json({ message: 'Missing search query' });
+  }
 
+  const matched = teacherLocations.find(t =>
+    t.name.toLowerCase().includes(query)
+  );
+
+  if (matched) {
+    const departmentDescription = getDepartmentDescription(matched.location);
+    res.json({
+      ...matched,
+      departmentDescription
+    });
+  } else {
+    res.status(404).json({ message: 'No matching teacher found' });
+  }
+});
 app.post('/api/update-location', (req, res) => {
   const { id, location, status } = req.body;
   const teacher = teacherLocations.find(t => t.id === id);
