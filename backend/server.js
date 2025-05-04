@@ -164,6 +164,7 @@ function getDepartmentDescription(location) {
 app.get('/api/teachers', (req, res) => {
   res.json(teacherLocations);
 });
+
 app.get('/api/teachers/search', (req, res) => {
   const query = req.query.q?.toLowerCase();
   if (!query) {
@@ -184,6 +185,7 @@ app.get('/api/teachers/search', (req, res) => {
     res.status(404).json({ message: 'No matching teacher found' });
   }
 });
+
 app.post('/api/update-location', (req, res) => {
   const { id, location, status } = req.body;
   const teacher = teacherLocations.find(t => t.id === id);
