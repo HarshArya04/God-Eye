@@ -153,7 +153,7 @@ function getDepartmentDescription(location) {
 
     if (distance < 0.0002) {
       return `In the ${dept} department`;
-    } else if (distance < 0.001) {
+    } else if (distance < 0.0001) {
       return `Near the ${dept} department`;
     }
   }

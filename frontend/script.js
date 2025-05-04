@@ -155,11 +155,17 @@ function searchTeacher() {
         searchMarker = null;
       }
 
-      if (userRole === 'user') {
-        // Remove all other markers for student view
-        clearAllMarkers();
+      if (userRole === 'admin') {
+        // Use existing marker if already on map
+        const existing = markers[teacher.id];
+        if (existing) {
+          existing.openPopup();
+          map.setView(teacher.location, 18);
+          return; // Don't create duplicate marker
+        }
       }
-
+      
+      // For user (or if marker missing), add one temporary marker
       searchMarker = L.circleMarker(teacher.location, {
         radius: 8,
         color: getStatusColor(teacher.status),
@@ -167,7 +173,7 @@ function searchTeacher() {
         fillOpacity: 0.8
       }).addTo(map).bindPopup(
         `<b>${teacher.name}</b><br>Status: ${teacher.status}`
-      ).openPopup();
+      ).openPopup();      
 
       map.setView(teacher.location, 18);
     })
