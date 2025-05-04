@@ -136,43 +136,34 @@ fetch('http://localhost:3001/api/teachers')
     const input = document.getElementById("searchInput").value.trim().toLowerCase();
     const resultDiv = document.getElementById("searchResult");
   
-    const teacher = teachers.find(t =>
-      t.name && t.name.toLowerCase().includes(input)
-    );
+    fetch(`http://localhost:3001/api/teachers/search?q=${encodeURIComponent(input)}`)
+      .then(res => {
+        if (!res.ok) throw new Error("No matching teacher found");
+        return res.json();
+      })
+      .then(teacher => {
+        resultDiv.innerHTML = `
+          <b>Name:</b> ${teacher.name} <br>
+          <b>Status:</b> ${teacher.status} <br>
+          <b>Location:</b> ${teacher.departmentDescription} <br>
+          <b>Last Updated:</b> ${teacher.last_updated}
+        `;
   
-    if (teacher) {
-      resultDiv.innerHTML = `
-        <p><strong>Name:</strong> ${teacher.name}</p>
-        <p><strong>Status:</strong> ${teacher.status}</p>
-        <p><strong>Location:</strong> ${teacher.departmentDescription}</p>
-        <b>Last Updated:</b> ${teacher.last_updated}
-      `;
+        // Center the map and show marker
+        if (window.map) {
+          if (window.searchMarker) {
+            map.removeLayer(window.searchMarker);
+          }
   
-      if (window.map) {
-        // Center the map
-        map.setView(teacher.location, 18);
+          window.searchMarker = L.marker(teacher.location, {
+            title: teacher.name
+          }).addTo(map).bindPopup(`<b>${teacher.name}</b><br>${teacher.status}`).openPopup();
   
-        // Remove previous search marker if exists
-        if (window.searchMarker) {
-          map.removeLayer(window.searchMarker);
+          map.setView(teacher.location, 18);
         }
-  
-        // Add new marker for the searched teacher
-        window.searchMarker = L.marker(teacher.location, {
-          title: teacher.name,
-          riseOnHover: true
-        }).addTo(map).bindPopup(
-          `<b>${teacher.name}</b><br>Status: ${teacher.status}`
-        ).openPopup();
-      }
-    } else {
-      resultDiv.innerHTML = "No matching teacher found.";
-      
-      // Remove previous search marker if it exists
-      if (window.searchMarker) {
-        map.removeLayer(window.searchMarker);
-        window.searchMarker = null;
-      }
-    }
+      })
+      .catch(err => {
+        resultDiv.innerHTML = err.message;
+      });
   }
   
