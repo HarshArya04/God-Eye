@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -49,6 +50,32 @@
         </div>
       </div>
     </div>
+=======
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="role">Role:</label>
+      <select id="role" required>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select><br>
+
+      <label for="mobile">Mobile:</label>
+      <input type="text" id="mobile" required /><br>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" required /><br>
+
+      <button type="submit">Login</button>
+    </form>
+    <p id="error" style="color:red;"></p>
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
   </div>
 
   <script>
@@ -59,6 +86,7 @@
       const mobile = document.getElementById("mobile").value;
       const password = document.getElementById("password").value;
 
+<<<<<<< HEAD
       try {
         const response = await fetch("http://localhost:3001/login", {
           method: "POST",
@@ -76,6 +104,21 @@
         }
       } catch (error) {
         document.getElementById("error").textContent = "Unable to connect to backend.";
+=======
+      const response = await fetch("http://localhost:3001/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role, mobile, password })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("userRole", role);
+        window.location.href = "index.html";
+      } else {
+        document.getElementById("error").textContent = result.message;
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
       }
     });
   </script>

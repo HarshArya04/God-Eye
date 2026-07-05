@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,11 +10,21 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body class="bg-slate-950 text-slate-100">
+=======
+<html>
+<head>
+  <title>Campus Faculty Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
   <script>
     const role = localStorage.getItem("userRole");
     if (!role) {
       window.location.href = "login.html";
     }
+<<<<<<< HEAD
   </script>
 
   <div class="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
@@ -73,5 +84,29 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="script.js?v=4"></script>
+=======
+  </script>  
+  <!-- Search -->
+  <input type="text" id="searchInput" placeholder="Search teacher..." />
+  <button onclick="searchTeacher()">Search</button>
+  <div id="searchResult"></div>
+  <div id="searchResult" style="margin-top: 10px;"></div>
+  
+  <div id="searchResult" style="margin-top: 10px; font-weight: bold;"></div>
+  
+  <!-- Map -->
+  <h2>🧑‍🏫 Faculty Location Map (Campus Only)</h2>
+  <div id="map"></div>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+  
+  <!-- Legend -->
+  <div id="legend">
+    <span style="color:green;">●</span> In Class
+    <span style="color:blue; margin-left:10px;">●</span> Free
+    <span style="color:red; margin-left:10px;">●</span> Absent
+  </div>
+  
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
 </body>
 </html>

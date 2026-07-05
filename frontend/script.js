@@ -10,6 +10,7 @@ const statusColor = {
 };
 
 const userRole = localStorage.getItem("userRole") || "user";
+<<<<<<< HEAD
 const BACKEND_BASE = 'http://127.0.0.1:3001';
 
 async function fetchBackendJson(url) {
@@ -25,6 +26,8 @@ async function fetchBackendJson(url) {
     throw new Error(`Unexpected backend response. Please restart the backend server.`);
   }
 }
+=======
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
 
 // === Initialize Map ===
 function initMap() {
@@ -122,14 +125,23 @@ function clearAllMarkers() {
 }
 
 function fetchTeachers() {
+<<<<<<< HEAD
   fetchBackendJson(`${BACKEND_BASE}/api/teachers`)
+=======
+  fetch("http://localhost:3001/api/teachers")
+    .then(res => res.json())
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
     .then(data => {
       teachers = data;
       if (userRole === "admin") {
         updateAllMarkers();
       }
+<<<<<<< HEAD
     })
     .catch(err => console.error('Teacher fetch failed:', err.message));
+=======
+    });
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
 }
 
 function updateAllMarkers() {
@@ -147,6 +159,7 @@ function updateAllMarkers() {
   });
 }
 
+<<<<<<< HEAD
 function renderScheduleTable(schedulesData) {
   const scheduleTableContent = document.getElementById('scheduleTableContent');
   const rows = schedulesData.flatMap(schedule => {
@@ -232,20 +245,52 @@ function searchTeacher() {
         <div class="mt-4 rounded-3xl border border-slate-700 bg-slate-950/90 px-4 py-3 text-sm text-slate-300">Schedule details will appear here soon.</div>
       `;
 
+=======
+function searchTeacher() {
+  const input = document.getElementById("searchInput").value.trim().toLowerCase();
+  const resultDiv = document.getElementById("searchResult");
+
+  fetch(`http://localhost:3001/api/teachers/search?q=${encodeURIComponent(input)}`)
+    .then(res => {
+      if (!res.ok) throw new Error("No matching teacher found");
+      return res.json();
+    })
+    .then(teacher => {
+      resultDiv.innerHTML = `
+        <b>Name:</b> ${teacher.name} <br>
+        <b>Status:</b> ${teacher.status} <br>
+        <b>Location:</b> ${teacher.departmentDescription} <br>
+        <b>Last Updated:</b> ${teacher.last_updated}
+      `;
+
+      // Remove previous search marker if exists
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
       if (searchMarker) {
         map.removeLayer(searchMarker);
         searchMarker = null;
       }
 
       if (userRole === 'admin') {
+<<<<<<< HEAD
+=======
+        // Use existing marker if already on map
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
         const existing = markers[teacher.id];
         if (existing) {
           existing.openPopup();
           map.setView(teacher.location, 18);
+<<<<<<< HEAD
           return;
         }
       }
 
+=======
+          return; // Don't create duplicate marker
+        }
+      }
+      
+      // For user (or if marker missing), add one temporary marker
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
       searchMarker = L.circleMarker(teacher.location, {
         radius: 8,
         color: getStatusColor(teacher.status),
@@ -253,12 +298,21 @@ function searchTeacher() {
         fillOpacity: 0.8
       }).addTo(map).bindPopup(
         `<b>${teacher.name}</b><br>Status: ${teacher.status}`
+<<<<<<< HEAD
       ).openPopup();
+=======
+      ).openPopup();      
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
 
       map.setView(teacher.location, 18);
     })
     .catch(err => {
+<<<<<<< HEAD
       resultDiv.innerHTML = `<span style="color:#b91c1c;">${err.message}</span>`;
+=======
+      resultDiv.innerHTML = err.message;
+
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
       if (searchMarker) {
         map.removeLayer(searchMarker);
         searchMarker = null;
@@ -266,16 +320,20 @@ function searchTeacher() {
     });
 }
 
+<<<<<<< HEAD
 function logout() {
   localStorage.removeItem('userRole');
   window.location.href = 'login.html';
 }
 
+=======
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
 // Run on page load
 window.addEventListener("DOMContentLoaded", () => {
   initMap();
   fetchTeachers();
   setInterval(fetchTeachers, 5000);
+<<<<<<< HEAD
 
   const roleDisplay = document.getElementById('userRoleDisplay');
   if (roleDisplay) {
@@ -289,4 +347,6 @@ window.addEventListener("DOMContentLoaded", () => {
     scheduleBtn.classList.toggle('hidden', !isAdmin);
     scheduleBtn.disabled = !isAdmin;
   }
+=======
+>>>>>>> 13adf389f14a1b87d3962d79c0e085f25fad093a
 });
