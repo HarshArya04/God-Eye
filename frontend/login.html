@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>God-Eye Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+  <div class="relative overflow-hidden bg-slate-900">
+    <div class="absolute inset-0 bg-gradient-to-br from-sky-600 via-indigo-700 to-slate-900 opacity-80"></div>
+    <div class="relative flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div class="w-full max-w-xl space-y-8 rounded-3xl bg-white/10 p-10 shadow-2xl shadow-slate-950/50 backdrop-blur-xl ring-1 ring-white/10">
+        <div class="text-center">
+          <p class="text-sm uppercase tracking-[0.35em] text-sky-300">God-Eye</p>
+          <h1 class="mt-4 text-4xl font-semibold tracking-tight text-white">Secure Faculty Portal</h1>
+          <p class="mt-3 text-slate-300">Login to view teacher locations and weekly schedules.</p>
+        </div>
+
+        <div class="rounded-3xl border border-white/10 bg-slate-950/80 p-6 shadow-inner shadow-slate-950/20">
+          <form id="loginForm" class="space-y-6">
+            <div>
+              <label for="role" class="block text-sm font-medium text-slate-300">Role</label>
+              <select id="role" required class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-100 shadow-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-400/20">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="mobile" class="block text-sm font-medium text-slate-300">Mobile</label>
+              <input id="mobile" type="text" required placeholder="9999999999" class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-100 shadow-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-400/20" />
+            </div>
+
+            <div>
+              <label for="password" class="block text-sm font-medium text-slate-300">Password</label>
+              <input id="password" type="password" required placeholder="••••••••" class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-100 shadow-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-400/20" />
+            </div>
+
+            <button type="submit" class="w-full rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-sky-500/20 transition hover:scale-[1.01] hover:shadow-sky-500/30 focus:outline-none focus:ring-2 focus:ring-sky-400/40">Sign In</button>
+          </form>
+
+          <div id="error" class="mt-4 min-h-[2rem] text-sm font-medium text-rose-300"></div>
+          <div class="mt-6 rounded-2xl bg-slate-900/80 p-4 text-sm text-slate-300 ring-1 ring-white/10">
+            <p class="font-semibold text-slate-100">Demo credentials</p>
+            <p class="mt-2"><span class="font-medium">User:</span> mobile <strong>9999999999</strong>, password <strong>user123</strong></p>
+            <p class="mt-1"><span class="font-medium">Admin:</span> mobile <strong>8888888888</strong>, password <strong>admin123</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const role = document.getElementById("role").value;
+      const mobile = document.getElementById("mobile").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch("http://localhost:3001/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role, mobile, password })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem("userRole", role);
+          window.location.href = "index.html";
+        } else {
+          document.getElementById("error").textContent = result.message || "Invalid credentials";
+        }
+      } catch (error) {
+        document.getElementById("error").textContent = "Unable to connect to backend.";
+      }
+    });
+  </script>
+</body>
+</html>

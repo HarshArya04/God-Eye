@@ -1,0 +1,264 @@
+body {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #020617 0%, #07101c 35%, #0d1629 100%);
+  color: #f8fafc;
+}
+
+#map {
+  height: 72vh;
+  width: 100%;
+}
+
+.leaflet-container {
+  border-radius: 28px;
+}
+
+.page-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 24px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: -0.04em;
+}
+
+.app-header p {
+  margin: 6px 0 0;
+  color: #4b5563;
+}
+
+.search-card,
+.map-panel {
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-row input {
+  flex: 1;
+  min-width: 220px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-row input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+#searchButton {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#searchButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+}
+
+.result-card,
+.schedule-card {
+  text-align: left;
+  margin-top: 18px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px;
+  min-height: 80px;
+}
+
+.result-card {
+  font-size: 15px;
+  color: #111827;
+}
+
+.schedule-card {
+  font-size: 14px;
+  color: #374151;
+}
+
+.schedule-card h3 {
+  margin-top: 0;
+}
+
+.schedule-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schedule-list li {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+#map {
+  height: 72vh;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.section-header p {
+  margin: 0;
+  color: #4b5563;
+}
+
+#legend {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px 16px;
+  border-radius: 14px;
+  display: inline-flex;
+  gap: 14px;
+  align-items: center;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+#legend .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  padding-left: 0.35rem;
+}
+
+#legend .legend-item::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+  background: currentColor;
+}
+
+#legend .legend-in-class { color: #16a34a; }
+#legend .legend-free { color: #3b82f6; }
+#legend .legend-absent { color: #ef4444; }
+
+.login-container {
+  max-width: 360px;
+  margin: 100px auto;
+  padding: 28px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 24px;
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.08);
+}
+
+.login-container input,
+.login-container select,
+.login-container button {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+}
+
+.login-container button {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  margin-top: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  transform: translateY(-1px);
+}
+  
+  .dept-label span {
+    background: none;
+    padding: 2px 6px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    box-shadow: none;
+    text-shadow: 
+      -1px -1px 0 #000, 
+       1px -1px 0 #000, 
+      -1px  1px 0 #000, 
+       1px  1px 0 #000;
+  }  
+  
+  #legend {
+    background: white;
+    padding: 5px 15px;
+    border: 1px solid #ccc;
+    width: fit-content;
+    margin: 10px auto;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+
+  .login-container {
+  max-width: 300px;
+  margin: 100px auto;
+  padding: 20px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-container input, select {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+}

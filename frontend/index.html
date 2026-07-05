@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Faculty Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body class="bg-slate-950 text-slate-100">
+  <script>
+    const role = localStorage.getItem("userRole");
+    if (!role) {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <div class="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col gap-6">
+      <header class="rounded-[32px] border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-slate-950/20 backdrop-blur-xl">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p class="uppercase tracking-[0.35em] text-sky-400">God-Eye</p>
+            <h1 class="mt-4 text-4xl font-semibold tracking-tight text-white">Campus Faculty Tracker</h1>
+            <p class="mt-2 max-w-2xl text-slate-300">Search teacher locations by ID, view live status, and check weekly class schedules.</p>
+          </div>
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+            <div class="rounded-3xl bg-slate-800/90 px-4 py-3 text-sm text-slate-200 ring-1 ring-white/5">Role: <span id="userRoleDisplay" class="font-semibold text-white">User</span></div>
+            <button onclick="logout()" class="rounded-3xl bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/15">Logout</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="grid gap-6 xl:grid-cols-[390px_minmax(0,1fr)]">
+        <section class="space-y-6">
+          <div class="rounded-[32px] border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-slate-950/20 backdrop-blur-xl">
+            <h2 class="text-xl font-semibold text-white">Teacher Search</h2>
+            <p class="mt-2 text-sm text-slate-400">Enter the teacher ID and press Enter or click Search.</p>
+            <form id="searchForm" class="mt-6 flex flex-col gap-4" onsubmit="searchTeacher(); return false;">
+              <input id="searchInput" type="text" placeholder="T001" class="w-full rounded-3xl border border-slate-700 bg-slate-950/90 px-5 py-4 text-base text-white outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-400/20" />
+              <button type="submit" class="rounded-3xl bg-gradient-to-r from-sky-500 to-indigo-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-sky-500/20 transition hover:brightness-110">Search</button>
+            </form>
+            <button id="showScheduleTableBtn" type="button" disabled class="mt-4 rounded-3xl border border-slate-700 bg-slate-800/90 px-6 py-3 text-base font-semibold text-white transition hover:border-sky-400 hover:text-sky-400 disabled:opacity-50 disabled:cursor-not-allowed">View All Teacher Schedules</button>
+          </div>
+
+          <div id="searchResult" class="rounded-[32px] border border-white/10 bg-slate-900/80 p-6 text-slate-100 shadow-2xl shadow-slate-950/20 backdrop-blur-xl min-h-[160px]">
+            <p class="text-slate-400">Search by teacher ID to view details. Schedule details will appear here soon.</p>
+          </div>
+          <div id="scheduleTableContainer" class="hidden rounded-[32px] border border-white/10 bg-slate-900/80 p-6 text-slate-100 shadow-2xl shadow-slate-950/20 backdrop-blur-xl">
+            <h3 class="text-lg font-semibold text-white">All Teacher Schedules</h3>
+            <div id="scheduleTableContent" class="mt-4 overflow-x-auto"></div>
+          </div>
+        </section>
+
+        <section class="rounded-[32px] border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-slate-950/20 backdrop-blur-xl">
+          <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p class="text-sm uppercase tracking-[0.35em] text-sky-300">Live Campus Map</p>
+              <h2 class="text-2xl font-semibold text-white">Faculty Location View</h2>
+            </div>
+          </div>
+          <div id="map" class="overflow-hidden rounded-[28px] border border-white/10 shadow-inner shadow-slate-950/20"></div>
+          <div id="legend" class="mt-6 rounded-[28px] border border-white/10 bg-slate-900/80 px-5 py-4 text-sm text-slate-300 shadow-2xl shadow-slate-950/10">
+            <span class="legend-item legend-in-class">In Class</span>
+            <span class="legend-item legend-free">Free</span>
+            <span class="legend-item legend-absent">Absent</span>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="script.js?v=4"></script>
+</body>
+</html>
